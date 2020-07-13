@@ -15,6 +15,17 @@ def index(request):
     })
 
 def add(request):
+    if request.method == "POST":
+        form = NewTaskForm(request.POST) 
+        if  form.is_valid():
+            task = form.cleaned_data["task"]
+            tasks.append(task)
+        else:
+            return render(request, "tasks/add.htmls",{
+                "form": form
+            })
+
+
     return render(request, "tasks/add.html", {
         "form": NewTaskForm()
     })
