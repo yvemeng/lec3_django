@@ -9,7 +9,7 @@ tasks = []
 
 class NewTaskForm(forms.Form):
     task = forms.CharField(label="New Task")
-    priority = forms.IntegerField(label="Priority", min_value=1, max_value=10)
+    #priority = forms.IntegerField(label="Priority", min_value=1, max_value=10)
 
 def index(request):
     if "tasks" not in request.session:
@@ -24,7 +24,7 @@ def add(request):
         form = NewTaskForm(request.POST) 
         if  form.is_valid():
             task = form.cleaned_data["task"]
-            tasks.append(task)
+            request.session["tasks"] += [task]
             return HttpResponseRedirect(reverse("tasks:index"))
         else:
             return render(request, "tasks/add.htmls",{
